@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencari Referensi Hadis Modern</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Font khusus Arab tetap perlu kita definisikan sedikit */
+        .font-arab { font-family: "Traditional Arabic", serif; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <div class="container mx-auto px-4 py-10 max-w-4xl">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-teal-600 mb-2">Studi Hadis AI</h1>
+            <p class="text-gray-600">Temukan referensi Kitab, Jurnal, dan Buku dalam satu klik.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col md:flex-row gap-4 mb-10">
+            <input type="text" id="topikInput" 
+                class="flex-grow border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                placeholder="Masukkan topik (Contoh: Sabar)...">
+            
+            <button onclick="cariReferensi()" 
+                class="bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 shadow-lg">
+                🔍 Cari Referensi
+            </button>
+        </div>
+
+        <div id="hasilArea" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-green-500">
+                <h3 class="font-bold text-xl mb-4 text-gray-800 flex items-center">📚 Kitab Arab</h3>
+                <div id="hasilKitab" class="font-arab text-right text-2xl text-gray-700 leading-loose mb-4 bg-gray-50 p-3 rounded"></div>
+                <div id="areaTombolCopy"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-500">
+                <h3 class="font-bold text-xl mb-4 text-gray-800">📄 Jurnal Ilmiah</h3>
+                <div id="hasilJurnal" class="text-sm text-gray-600 space-y-2"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-yellow-500">
+                <h3 class="font-bold text-xl mb-4 text-gray-800">📖 Buku Umum</h3>
+                <div id="hasilBuku" class="text-sm text-gray-600 space-y-2"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function cariReferensi() {
+            let topik = document.getElementById('topikInput').value;
+
+            if (topik === "") {
+                alert("Mohon masukkan topik terlebih dahulu!");
+                return;
+            }
+
+            // Menghapus class 'hidden' untuk memunculkan hasil
+            let area = document.getElementById('hasilArea');
+            area.classList.remove('hidden');
+
+            // Data Simulasi
+            let teksArab = "صحيح البخاري: باب في فضل " + topik;
+
+            // Render Hasil
+            document.getElementById('hasilKitab').innerHTML = teksArab;
+            
+            document.getElementById('hasilJurnal').innerHTML = `
+                <p class="border-b pb-2"><strong>Jurnal Studi Islam (2023)</strong><br>Analisis Hadis tentang ${topik}</p>
+                <p class="pt-2"><strong>Int. Journal of Theology</strong><br>The Concept of ${topik}</p>
+            `;
+            
+            document.getElementById('hasilBuku').innerHTML = `
+                <p class="border-b pb-2"><strong>Ensiklopedia Hadis</strong><br>Tema utama: ${topik}</p>
+                <p class="pt-2"><strong>Pengantar Ilmu Hadis</strong><br>Memahami ${topik}</p>
+            `;
+
+            // Tombol Copy Modern
+            let tombolHTML = `
+                <button onclick="salinTeks('${teksArab}')" 
+                class="w-full mt-2 bg-gray-100 text-gray-600 hover:bg-green-100 hover:text-green-700 py-2 rounded text-sm font-semibold transition flex justify-center items-center gap-2">
+                📋 Salin Teks
+                </button>`;
+            document.getElementById('areaTombolCopy').innerHTML = tombolHTML;
+        }
+
+        function salinTeks(teks) {
+            navigator.clipboard.writeText(teks);
+            alert("Teks berhasil disalin!");
+        }
+    </script>
+</body>
+</html>
